@@ -14,20 +14,15 @@ import { Select } from "../../components/select";
 
 // Constants
 import { MODEL_TREE_MINES_OPTIONS } from "../../constants/model-tree";
+import { TreeBrowser } from "../../components/tree-browser";
 
 export const ModelTreeBrowser = () => {
-  const [tree, setTree] = useState({ isBuilt: false });
   const [model, setModel] = useState({ isFetched: false });
-  const [selectedMine, setSelectedMine] = useState("");
-
-  const resetTree = (initialTreeData) => {
-    setTree(initialTreeData);
-  };
+  const [selectedMine, setSelectedMine] = useState("FLYMINE");
 
   const updateModel = (serverResponse) => {
     const modifiedResponse = adapterForModel(serverResponse);
     setModel({ ...modifiedResponse, isFetched: true });
-    resetTree({});
   };
 
   /**
@@ -46,10 +41,12 @@ export const ModelTreeBrowser = () => {
     <div className="page-container">
       <div className="wrapper">
         <Select
+          label="Select Mine"
           onChange={onSelectMineChange}
           selected={selectedMine}
           options={MODEL_TREE_MINES_OPTIONS}
         />
+        <TreeBrowser model={model} />
       </div>
     </div>
   );
