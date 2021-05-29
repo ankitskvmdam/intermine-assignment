@@ -4,10 +4,13 @@
  * @property {Array<{id: string, name: string, label: string}>} nonExpandableChildren
  */
 
+import { cloneObject } from "../../utils/misc";
+
 /**
  * @typedef {Object} CreateTreeNodeOption
  * @property {string} id
  * @property {string} label
+ * @property {string} value
  * @property {string} referencedType
  * @property {Array<string>} direction This is used for traversal
  * @property {TreeChildren} children
@@ -27,6 +30,7 @@ export const createTreeNode = (options) => {
     isChildrenFetched = false,
     direction = [],
     label = "",
+    value = "",
     referencedType,
     isExpanded = false,
   } = options;
@@ -36,11 +40,12 @@ export const createTreeNode = (options) => {
     isChildrenFetched,
     direction: [...direction, id],
     label,
+    value,
     referencedType,
     isExpanded,
   };
 
-  return JSON.parse(JSON.stringify(treeNode));
+  return cloneObject(treeNode);
 };
 
 /**
@@ -79,12 +84,13 @@ export const getTreeChildrenFromModelClassObject = (
 
   for (let i = 0; i < allExpandableChildrenRaw.length; i += 1) {
     const currentChild = allExpandableChildrenRaw[i];
-    const id = `${parentDirection.join('-')}-${currentChild.name}`
+    const id = `${parentDirection.join("-")}-${currentChild.name}`;
     expandableChildren[id] = createTreeNode({
       id,
       label: currentChild.displayName,
       referencedType: currentChild.referencedType,
-      direction: parentDirection
+      direction: parentDirection,
+      value: currentChild.referencedType
     });
   }
 
@@ -92,10 +98,10 @@ export const getTreeChildrenFromModelClassObject = (
     const currentChild = allNonExpandableChildrenRaw[i];
     if (currentChild.name !== "id") {
       nonExpandableChildren.push({
-        id: `${parentDirection.join('-')}-${currentChild.name}`,
+        id: `${parentDirection.join("-")}-${currentChild.name}`,
         label: currentChild.displayName,
         name: currentChild.name,
-        direction: parentDirection
+        direction: parentDirection,
       });
     }
   }
@@ -104,4 +110,65 @@ export const getTreeChildrenFromModelClassObject = (
     expandableChildren,
     nonExpandableChildren,
   };
+};
+
+/**
+ *
+ * @param {CreateTreeNodeOption} tree
+ * @param {CreateTreeNodeOption} node
+ * @returns {CreateTreeNodeOption}
+ */
+export const getTreeNodeUsingDirection = (tree, node) => {
+  let expectedNode = tree;
+
+  for (let i = 1; i < node.direction.length; i += 1) {
+    expectedNode = expectedNode.children.expandableChildren[node.direction[i]];
+  }
+  return expectedNode;
+};
+
+/**
+ *
+ * @param {CreateTreeNodeOption} tree
+ * @param {CreateTreeNodeOption} node
+ * @param {CreateTreeNodeOption[]} children
+ */
+export const getNewTreeAfterAppendingChildrenToNode = (
+  tree = {},
+  node = {},
+  children = []
+) => {
+  const clonedTree = cloneObject(tree);
+  const clonedChildren = cloneObject(children);
+  const clonedNode = cloneObject(node);
+
+  const expectedNode = getTreeNodeUsingDirection(clonedTree, clonedNode);
+  
+  if (expectedNode) {
+    expectedNode.children = clonedChildren;
+    expectedNode.isChildrenFetched = true;
+
+  }
+
+  return clonedTree;
+};
+
+
+/**
+ *
+ * @param {CreateTreeNodeOption} tree
+ * @param {CreateTreeNodeOption} node
+ * @param {boolean} isExpanded
+ */
+export const updateTreeNodeExpandState = (tree, node, isExpanded = false) => {
+  const clonedTree = cloneObject(tree);
+  const clonedNode = cloneObject(node);
+
+  const expectedNode = getTreeNodeUsingDirection(clonedTree, clonedNode)
+
+  if (expectedNode) {
+    expectedNode.isExpanded = isExpanded
+  }
+
+  return clonedTree
 };

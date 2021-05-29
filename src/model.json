@@ -2,9 +2,22 @@
   "model": {
     "package": "org.intermine.model.bio",
     "classes": {
+      "test": {
+        "extends": [],
+        "references": {},
+        "collections": {},
+        "attributes": {},
+        "displayName": "test",
+        "name": "test"
+      },
       "ChromosomalDuplication": {
         "extends": ["ChromosomeStructureVariation"],
         "references": {
+          "test": {
+            "displayName": "test",
+            "name": "test",
+            "referencedType": "test"
+          },
           "strain": {
             "displayName": "Strain",
             "name": "strain",

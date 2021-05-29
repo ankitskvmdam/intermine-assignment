@@ -3,7 +3,7 @@ import { Select } from "../select";
 import { Tree } from "./tree";
 import { createTreeNode, getTreeChildrenFromModelClassObject } from "./utils";
 
-import './tree-browser.css'
+import "./tree-browser.css";
 
 export const TreeBrowser = (props) => {
   const { model } = props;
@@ -12,13 +12,15 @@ export const TreeBrowser = (props) => {
   const [selectedDataType, setSelectedDataType] = useState("");
 
   const resetTree = (rootClass) => {
-      setTree(createTreeNode({
-          id: 'root',
-          isChildrenFetched: true,
-          label: rootClass.displayName,
-          children: getTreeChildrenFromModelClassObject(rootClass, ['root'])
-      }))
-  }
+    setTree(
+      createTreeNode({
+        id: "root",
+        isChildrenFetched: true,
+        label: rootClass.displayName,
+        children: getTreeChildrenFromModelClassObject(rootClass, ["root"]),
+      })
+    );
+  };
   /**
    *
    * @param {React.FormEvent<HTMLSelectElement>} event
@@ -42,8 +44,8 @@ export const TreeBrowser = (props) => {
     }
 
     setClasses(classesArray);
-    setSelectedDataType(classesArray[0].value)
-    resetTree(model.classes[classesArray[0].value])
+    setSelectedDataType(classesArray[0].value);
+    resetTree(model.classes[classesArray[0].value]);
   };
 
   useEffect(() => {
@@ -60,8 +62,14 @@ export const TreeBrowser = (props) => {
         onChange={onChangeSelectedDataType}
         options={classes}
       />
-
-      <Tree tree={tree} setTree={setTree} model={model} classes={classes} />
+      <hr />
+      <Tree
+        tree={tree}
+        setTree={setTree}
+        node={tree}
+        model={model}
+        classes={classes}
+      />
     </div>
   );
 };
