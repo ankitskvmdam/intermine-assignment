@@ -43,7 +43,7 @@ export const TreeBrowser = (props) => {
       });
     }
 
-    setClasses(classesArray);
+    setClasses(classesArray.sort((a, b) => a.label.localeCompare(b.label)));
     setSelectedDataType(classesArray[0].value);
     resetTree(model.classes[classesArray[0].value]);
   };

@@ -158,16 +158,17 @@ export const getNewTreeAfterAppendingChildrenToNode = (
  *
  * @param {CreateTreeNodeOption} tree
  * @param {CreateTreeNodeOption} node
- * @param {boolean} isExpanded
+ * @param {CreateTreeNodeOption} options
  */
-export const updateTreeNodeExpandState = (tree, node, isExpanded = false) => {
+export const updateTreeNodeState = (tree, node, options = {}) => {
   const clonedTree = cloneObject(tree);
   const clonedNode = cloneObject(node);
 
   const expectedNode = getTreeNodeUsingDirection(clonedTree, clonedNode)
 
   if (expectedNode) {
-    expectedNode.isExpanded = isExpanded
+    if(options.isExpanded !== undefined ) expectedNode.isExpanded = options.isExpanded
+    if(options.value !== undefined) expectedNode.value = options.value
   }
 
   return clonedTree

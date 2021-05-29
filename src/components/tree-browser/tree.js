@@ -2,13 +2,13 @@ import { cloneObject } from "../../utils/misc";
 
 // Components
 import { RightChevron } from "./right-chevron";
-import { Select } from "../select"
+import { Select } from "../select";
 
 // Utils
 import {
   getTreeChildrenFromModelClassObject,
   getNewTreeAfterAppendingChildrenToNode,
-  updateTreeNodeExpandState,
+  updateTreeNodeState,
 } from "./utils";
 import { useState } from "react";
 
@@ -27,11 +27,22 @@ import { useState } from "react";
 
 export const Tree = (props) => {
   const { classes, model, tree, setTree, node: nodeProps } = props;
-  const [selectedClass, setSelectedClass] = useState(nodeProps.value)
+  const [selectedClass, setSelectedClass] = useState(nodeProps.value);
 
   const handleOnSelectChange = (event) => {
-    setSelectedClass(event.currentTarget.value)
-  }
+    const value = event.currentTarget.value
+    setSelectedClass(value);
+
+    const children = getTreeChildrenFromModelClassObject(
+      model.classes[value],
+      nodeProps.direction
+    );
+
+    let newTree = getNewTreeAfterAppendingChildrenToNode(tree, nodeProps, children);
+    newTree = updateTreeNodeState(newTree, nodeProps, {isExpanded: true, value });
+
+    setTree(newTree);
+  };
 
   const handleLiClick = (node) => {
     const children = getTreeChildrenFromModelClassObject(
@@ -45,7 +56,7 @@ export const Tree = (props) => {
       newTree = getNewTreeAfterAppendingChildrenToNode(tree, node, children);
     }
 
-    newTree = updateTreeNodeExpandState(newTree, node, !node.isExpanded);
+    newTree = updateTreeNodeState(newTree, node, {isExpanded: !node.isExpanded});
     setTree(newTree);
   };
 
@@ -66,7 +77,13 @@ export const Tree = (props) => {
 
   return (
     <div className="tree-children-container">
-      <Select options={classes} onChange={handleOnSelectChange} selected={selectedClass} />
+      {nodeProps.id !== "root" && (
+        <Select
+          options={classes}
+          onChange={handleOnSelectChange}
+          selected={selectedClass}
+        />
+      )}
       <ul className="non-expandable-ul">
         {nonExpandableChildren.map((leaf) => {
           return (
