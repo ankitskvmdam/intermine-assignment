@@ -1,9 +1,15 @@
 import './App.css';
 
-function App() {
+// Components
+import { Header } from './components/header'
+// Pages
+import { ModelTreeBrowser } from './pages/model-tree-browser'
+
+export const App = () => {
   return (
-    <div className="App">
-      My App
+    <div className="app">
+      <Header />
+      <ModelTreeBrowser />
     </div>
   );
 }
