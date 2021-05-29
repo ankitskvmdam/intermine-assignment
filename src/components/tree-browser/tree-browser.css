@@ -1,0 +1,27 @@
+.tree-children-container {
+    border: 1px solid #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+}
+
+.non-expandable-ul, .expandable-ul {
+    list-style: none;
+}
+
+.non-expandable-ul {
+    padding-left: 16px;
+}
+
+.expandable-li {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+}
+
+.expandable-li .icons {
+    height: 16px;
+}
+
+.expandable-li, .non-expandable-li {
+    padding: 4px 0;
+}
