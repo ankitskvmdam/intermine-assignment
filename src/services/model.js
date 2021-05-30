@@ -1,9 +1,4 @@
-import a from '../model.json'
-
-const modelEndpoints = {
-    flymine: 'https://www.flymine.org/flymine/service/model?format=json',
-    humanmine: 'https://www.humanmine.org/humanmine/service/model?format=json',
-}
+import { modelEndpoints } from '../constants/model-tree'
 
 /**
  * Fetch model from InterMine server
@@ -13,7 +8,13 @@ const modelEndpoints = {
  * @returns model
  */
 export const fetchModel = (mineName, cb) => {
-    const endpoint = modelEndpoints[mineName] || modelEndpoints.flymine
+    const endpoint = modelEndpoints[mineName] || modelEndpoints.HUMANMINE
 
-    cb(a)
+    fetch(endpoint, {
+        method: 'GET',
+    })
+    .then(res => res.json())
+    .then(response => cb(response))
+    .catch(err => cb(err))
+    
 }
