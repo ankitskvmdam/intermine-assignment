@@ -1,4 +1,5 @@
 # Model Tree Browser for InterMine Data Model
+A tree browser of an InterMine data model build using React.js.
 
 ## Getting Started
 ### Requirements
@@ -7,24 +8,28 @@
 - [node](https://nodejs.org/en/)
 - npm
 
-## Available Scripts
+### Step 1
+First you have to clone this repository and then install all the dependencies.
+```bash
+git clone https://github.com/ankitskvmdam/intermine-assignment  # clone repository
+cd intermine-assignment                                         # change directory
+npm install                                                     # install dependencies
+```
 
-In the project directory, you can run:
+### Step 2
 
-### `npm start`
-
-Runs the app in the development mode.\
+#### Run in development mode
+```bash
+npm start
+```
+This runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm run build`
-
+#### Build
+```bash
+npm run build
+```
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The build is minified and the filenames include the hashes.
