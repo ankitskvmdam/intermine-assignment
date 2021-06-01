@@ -5,7 +5,6 @@ import { modelEndpoints } from '../constants/model-tree'
  * 
  * @param {keyof modelEndpoints} mineName default is flymine.
  * @param {Function} cb callback function
- * @returns model
  */
 export const fetchModel = (mineName, cb) => {
     const endpoint = modelEndpoints[mineName] || modelEndpoints.HUMANMINE
