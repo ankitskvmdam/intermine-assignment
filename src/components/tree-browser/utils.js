@@ -131,12 +131,12 @@ export const getTreeNodeUsingDirection = (tree, node) => {
  *
  * @param {CreateTreeNodeOption} tree
  * @param {CreateTreeNodeOption} node
- * @param {CreateTreeNodeOption[]} children
+ * @param {TreeChildren} children
  */
 export const getNewTreeAfterAppendingChildrenToNode = (
   tree = {},
   node = {},
-  children = []
+  children = {}
 ) => {
   const clonedTree = cloneObject(tree);
   const clonedChildren = cloneObject(children);
